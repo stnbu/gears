@@ -7,7 +7,7 @@ class Gear:
             ratio = Q(ratio, 1)
         self.ratio = ratio
         self.name = name
-        self.angle = Q(0, 1)
+        self.rotation = Q(0, 1)
         self.parent = parent
         self.children = []
         if not self.is_root():
@@ -17,8 +17,8 @@ class Gear:
         if not isinstance(amount, Q):
             amount = Q(amount, 1)
         my_amount = amount * self.ratio
-        new_angle = self.angle + my_amount
-        self.angle = new_angle
+        new_rotation = self.rotation + my_amount
+        self.rotation = new_rotation
         for child in self.children:
             child.turn(my_amount)
 
