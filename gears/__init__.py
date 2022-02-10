@@ -5,13 +5,14 @@ from sympy import Matrix
 # FIXME s/angle/rotations/g
 # MAYBE import tau as circle
 
+
 class Gear:
     def __init__(self, ratio, parent=None, name=None):
         if not isinstance(ratio, Q):
             ratio = Q(ratio, 1)
         self.ratio = ratio
         self.name = name
-        #self.rotation = Q(0, 1)
+        # self.rotation = Q(0, 1)
         self.parent = parent
         self.children = []
         if not self.is_root():
@@ -65,7 +66,6 @@ class Gear:
 
 
 class DrawingGear(Gear):
-
     def __init__(self, *args, arm=None, nib=None, **kwargs):
         super().__init__(*args, *kwargs)
         self.arm = Q(1, 1) if arm is None else arm
@@ -73,13 +73,15 @@ class DrawingGear(Gear):
 
     def get_nib(self, input_rotation):
         x, y = 0.0, 0.0
-        #net_rotation = Q(0, 1)
+        # net_rotation = Q(0, 1)
         for gear in self.get_lineage():
             (x, y), input_rotation = gear.react((x, y), input_rotation)
         return x, y
 
     def react(self, origin, input_rotation):
-        import ipdb; ipdb.set_trace()
+        import ipdb
+
+        ipdb.set_trace()
         dx, dy = origin
         x, y = dx, float(self.arm) + dy
         n, d = self.get_output_rotation(input_rotation)
@@ -87,11 +89,11 @@ class DrawingGear(Gear):
         r = Matrix(
             [
                 [cos(angle), -sin(angle)],
-                [sin(angle),  cos(angle)],
+                [sin(angle), cos(angle)],
             ]
         )
         x, y = r * Matrix([x, y])
-        #import ipdb; ipdb.set_trace()
+        # import ipdb; ipdb.set_trace()
         return (x, y), input_rotation
 
 
@@ -103,11 +105,12 @@ if __name__ == "__main__":
     print(new_frame)
 
     dhh = DrawingGear(1, None)
-    import ipdb; ipdb.set_trace()
-    new_frame = dhh.get_nib_frame(*new_frame)
-    
-    #
-    #dgg.turn(Q(1, 8))
-    #input_rotation = Q(1, 8)
-    #print(dhh.get_nib_xy(input_rotation))
+    import ipdb
 
+    ipdb.set_trace()
+    new_frame = dhh.get_nib_frame(*new_frame)
+
+    #
+    # dgg.turn(Q(1, 8))
+    # input_rotation = Q(1, 8)
+    # print(dhh.get_nib_xy(input_rotation))
