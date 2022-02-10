@@ -1,6 +1,7 @@
 from gears import Gear
 from polynomier import Q
 
+
 def test():
 
     g00 = Gear(1)
@@ -43,6 +44,7 @@ def test():
     assert gears[-1].rotation == Q(2, 64)
     gears[0].turn(-2)
     assert gears[-1].rotation == 0
+
 
 if __name__ == "__main__":
     test()
