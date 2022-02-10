@@ -1,5 +1,5 @@
-
 from polynomier import Q
+
 
 class Gear:
     def __init__(self, ratio, parent=None, name=None):
@@ -48,6 +48,7 @@ class Gear:
         if self.name is not None:
             return self.name
         return "<%s %s>" % (self.__class__.__name__, id(self))
+
 
 if __name__ == "__main__":
 
