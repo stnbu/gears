@@ -7,18 +7,27 @@ CURRENT = 0
 
 def rotate_unit_line(origin, theta):
     global CURRENT
-    my_theta = theta + CURRENT
-    x, y = origin
-    y += 1  # vertical unit stick
+    angle = theta + CURRENT
+
+
+
+
+    about_x, about_y = origin
     r = Matrix(
         [
-            [cos(my_theta), -sin(my_theta)],
-            [sin(my_theta),  cos(my_theta)],
+            [cos(angle), -sin(angle)],
+            [sin(angle),  cos(angle)],
         ]
     )
-    CURRENT = my_theta
-    x, y = r * Matrix([x, y])
-    return x, y
+    rotated_about_x, rotated_about_y = r * Matrix([about_x, about_y])
+    dx, dy = rotated_about_x - about_x, rotated_about_y - about_y
+    def worker(point):
+        x, y = r * Matrix(point)
+        return x - dx, y - dy
+
+    point = worker([about_x, about_y + 1])
+    CURRENT = angle
+    return point
 
 num_sticks = 2
 locations = [(0, num_sticks)]
@@ -27,7 +36,6 @@ for angle in angles:
     location = 0, 0
     for _ in range(0, num_sticks):
         location = rotate_unit_line(location, angle)
-        import ipdb; ipdb.set_trace()
     locations.append(location)
 
 config.quality = "low_quality"
@@ -36,15 +44,3 @@ cycle = VGroup()
 cycle.set_points_as_corners([(x, y, 0) for (x,y) in locations])
 scene.add(cycle)
 scene.render()
-
-if False:
-    origin_x, origin_y = origin
-    nib_x, nib_y = origin_x, origin_y + 1
-    r = Matrix(
-        [
-            [cos(my_theta), -sin(my_theta)],
-            [sin(my_theta),  cos(my_theta)],
-        ]
-    )
-    new_origin_x, new_origin_y = r * Matrix([nib_x, nib_y])
-    dx, dy = new_origin_x - origin_x, new_origin_y - origin_y
