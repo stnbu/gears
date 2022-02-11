@@ -12,32 +12,28 @@ def rotate_unit_line(origin, theta):
 
 
 
-    about_x, about_y = origin
+    origin_x, origin_y = origin
     r = Matrix(
         [
-            [cos(angle), -sin(angle)],
-            [sin(angle),  cos(angle)],
+            [cos(angle), -sin(angle), 0],
+            [sin(angle),  cos(angle), 0],
+            [0,0,1],
         ]
     )
-    rotated_about_x, rotated_about_y = r * Matrix([about_x, about_y])
-    dx, dy = rotated_about_x - about_x, rotated_about_y - about_y
-    def worker(point):
-        x, y = r * Matrix(point)
-        return x - dx, y - dy
-
-    point = worker([about_x, about_y + 1])
+    x, y, _ = r * Matrix([origin_x, origin_y + 1, 1])
     CURRENT = angle
-    return point
+    return x, y
 
 num_sticks = 2
 locations = [(0, num_sticks)]
-angles = [(circle/8)*n for n in range(1, 2)]
+angles = [(circle/1000)*n for n in range(1, 25)]
 for angle in angles:
     location = 0, 0
     for _ in range(0, num_sticks):
         location = rotate_unit_line(location, angle)
     locations.append(location)
 
+#import ipdb; ipdb.set_trace()
 config.quality = "low_quality"
 scene = Scene()
 cycle = VGroup()
