@@ -26,7 +26,7 @@ def rotate_unit_line(origin, theta):
 
 num_sticks = 2
 locations = [(0, num_sticks)]
-angles = [(circle/1000)*n for n in range(1, 25)]
+angles = [(circle/10000)*n for n in range(1, 300)]
 for angle in angles:
     location = 0, 0
     for _ in range(0, num_sticks):
