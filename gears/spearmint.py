@@ -17,7 +17,7 @@ def rotate_unit_line(origin, angle):
 
 
 def get_stick_tower_points(num_sticks, sample_angle):
-    #(0, num_sticks)]
+    # (0, num_sticks)]
     angles = [sample_angle * n for n in range(1, 3000)]
     for angle in angles:
         location = 0, 0
