@@ -16,10 +16,9 @@ def rotate_unit_line(origin, angle):
     return x, y
 
 
-def rotate_tower_of_sticks():
-    num_sticks = 2
+def get_stick_tower_points(num_sticks, sample_angle):
     locations = [(0, num_sticks)]
-    angles = [(circle / 1000) * n for n in range(1, 3000)]
+    angles = [sample_angle * n for n in range(1, 3000)]
     for angle in angles:
         location = 0, 0
         for height in range(0, num_sticks):
@@ -27,8 +26,7 @@ def rotate_tower_of_sticks():
         locations.append(location)
     return locations
 
-
-locations = rotate_tower_of_sticks()
+locations = get_stick_tower_points(2, circle/1000)
 
 config.quality = "low_quality"
 scene = Scene()
