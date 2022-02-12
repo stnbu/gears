@@ -26,7 +26,8 @@ def get_stick_tower_points(num_sticks, sample_angle):
         locations.append(location)
     return locations
 
-locations = get_stick_tower_points(2, circle/1000)
+
+locations = get_stick_tower_points(2, circle / 1000)
 
 config.quality = "low_quality"
 scene = Scene()
