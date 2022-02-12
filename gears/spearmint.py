@@ -27,6 +27,7 @@ def iter_stick_tower_points(num_sticks, sample_angle):
         angle += sample_angle
         yield location
 
+
 if __name__ == "__main__":
     scene = Scene()
     cycle = VGroup()
