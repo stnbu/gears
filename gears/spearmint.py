@@ -1,9 +1,9 @@
-
 from manim import VGroup, Scene, config
 from sympy import Matrix
 from math import sin, cos, tau as circle
 
 CURRENT = 0
+
 
 def rotate_unit_line(origin, theta):
     global CURRENT
@@ -12,17 +12,18 @@ def rotate_unit_line(origin, theta):
     r = Matrix(
         [
             [cos(angle), -sin(angle), 0],
-            [sin(angle),  cos(angle), 0],
-            [0,0,1],
+            [sin(angle), cos(angle), 0],
+            [0, 0, 1],
         ]
     )
     x, y, _ = r * Matrix([origin_x, origin_y + 1, 1])
     CURRENT = angle
     return x, y
 
+
 num_sticks = 2
 locations = [(0, num_sticks)]
-angles = [(circle/1000)*n for n in range(1, 3000)]
+angles = [(circle / 1000) * n for n in range(1, 3000)]
 for angle in angles:
     location = 0, 0
     CURRENT = 0.0
@@ -33,6 +34,6 @@ for angle in angles:
 config.quality = "low_quality"
 scene = Scene()
 cycle = VGroup()
-cycle.set_points_as_corners([(x, y, 0) for (x,y) in locations])
+cycle.set_points_as_corners([(x, y, 0) for (x, y) in locations])
 scene.add(cycle)
 scene.render()
