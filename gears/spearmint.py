@@ -2,12 +2,8 @@ from manim import VGroup, Scene, config
 from sympy import Matrix
 from math import sin, cos, tau as circle
 
-CURRENT = 0
 
-
-def rotate_unit_line(origin, theta):
-    global CURRENT
-    angle = theta + CURRENT
+def rotate_unit_line(origin, angle):
     origin_x, origin_y = origin
     r = Matrix(
         [
@@ -17,19 +13,22 @@ def rotate_unit_line(origin, theta):
         ]
     )
     x, y, _ = r * Matrix([origin_x, origin_y + 1, 1])
-    CURRENT = angle
     return x, y
 
 
-num_sticks = 2
-locations = [(0, num_sticks)]
-angles = [(circle / 1000) * n for n in range(1, 3000)]
-for angle in angles:
-    location = 0, 0
-    CURRENT = 0.0
-    for _ in range(0, num_sticks):
-        location = rotate_unit_line(location, angle)
-    locations.append(location)
+def rotate_tower_of_sticks():
+    num_sticks = 2
+    locations = [(0, num_sticks)]
+    angles = [(circle / 1000) * n for n in range(1, 3000)]
+    for angle in angles:
+        location = 0, 0
+        for height in range(0, num_sticks):
+            location = rotate_unit_line(location, angle * (height + 1))
+        locations.append(location)
+    return locations
+
+
+locations = rotate_tower_of_sticks()
 
 config.quality = "low_quality"
 scene = Scene()
