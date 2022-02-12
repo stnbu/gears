@@ -8,10 +8,6 @@ CURRENT = 0
 def rotate_unit_line(origin, theta):
     global CURRENT
     angle = theta + CURRENT
-
-
-
-
     origin_x, origin_y = origin
     r = Matrix(
         [
@@ -26,14 +22,14 @@ def rotate_unit_line(origin, theta):
 
 num_sticks = 2
 locations = [(0, num_sticks)]
-angles = [(circle/10000)*n for n in range(1, 300)]
+angles = [(circle/1000)*n for n in range(1, 3000)]
 for angle in angles:
     location = 0, 0
+    CURRENT = 0.0
     for _ in range(0, num_sticks):
         location = rotate_unit_line(location, angle)
     locations.append(location)
 
-#import ipdb; ipdb.set_trace()
 config.quality = "low_quality"
 scene = Scene()
 cycle = VGroup()
