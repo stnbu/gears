@@ -55,6 +55,7 @@ class Gear:
             locations.append(location)
         return locations
 
+
 if __name__ == "__main__":
     from manim import VGroup, Scene
 
