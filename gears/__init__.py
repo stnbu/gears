@@ -47,7 +47,7 @@ if __name__ == "__main__":
     g0 = Gear()
     g1 = Gear(parent=g0)
     locations = []
-    sample_angle = circle/1000
+    sample_angle = circle / 1000
     angle = 0
     while angle <= circle:
         locations.append(g1.get_nib(angle))
