@@ -1,4 +1,4 @@
-from math import sin, cos
+from math import sin, cos, tau as circle
 from sympy import Matrix
 
 
@@ -7,6 +7,7 @@ class Gear:
         self.ratio = ratio
         self.arm = arm
         self.parent = parent
+        self.results = {}
 
     def get_nib(self, angle):
         lineage = self.get_lineage()
@@ -39,19 +40,21 @@ class Gear:
     def __repr__(self):
         return "<%s %s>" % (self.__class__.__name__, id(self))
 
+    def do(self):
+        locations = []
+        sample_angle = circle / 100
+        angle = 0
+        while angle <= circle:
+            locations.append(g1.get_nib(angle))
+            angle += sample_angle
+        return locations
 
 if __name__ == "__main__":
-    from math import tau as circle
     from manim import VGroup, Scene
 
     g0 = Gear()
     g1 = Gear(parent=g0)
-    locations = []
-    sample_angle = circle / 1000
-    angle = 0
-    while angle <= circle:
-        locations.append(g1.get_nib(angle))
-        angle += sample_angle
+    locations = g1.do()
 
     scene = Scene()
     cycle = VGroup()
