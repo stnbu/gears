@@ -49,6 +49,7 @@ class Gear:
             angle += sample_angle
         return locations
 
+
 if __name__ == "__main__":
     from manim import VGroup, Scene
 
