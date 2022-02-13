@@ -10,13 +10,18 @@ class Gear:
         self.results = {}
 
     def get_nib(self, angle):
+        input_angle = angle
         lineage = self.get_lineage()
         origin = 0, 0
         total_angle = 0
+        gamma = 1
         for gear in lineage:
             total_angle += angle
             origin, angle = gear.rotate(origin, total_angle)
-        return origin
+            _gamma = 1 if angle == 0 else input_angle / abs(angle)
+            if gamma > _gamma:
+                gamma = _gamma
+        return origin, gamma
 
     def get_lineage(self):
         ancestry = [self]
@@ -45,17 +50,20 @@ class Gear:
         sample_angle = circle / 100
         angle = 0
         while angle <= circle:
-            locations.append(g1.get_nib(angle))
-            angle += sample_angle
+            location, gamma = self.get_nib(angle)
+            angle += sample_angle * gamma
+            locations.append(location)
         return locations
-
 
 if __name__ == "__main__":
     from manim import VGroup, Scene
 
     g0 = Gear()
     g1 = Gear(parent=g0)
-    locations = g1.do()
+    g2 = Gear(ratio=0.5, parent=g1)
+    g3 = Gear(ratio=-1.5, parent=g2)
+    g4 = Gear(ratio=1.1, parent=g3)
+    locations = g3.do()
 
     scene = Scene()
     cycle = VGroup()
