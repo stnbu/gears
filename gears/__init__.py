@@ -37,6 +37,7 @@ class Gear:
 
     def rotate(self, origin, angle):
         origin_x, origin_y = origin
+        ratio = self.ratio if not callable(self.ratio) else self.ratio(origin, angle)
         output = self.ratio * angle
         r = Matrix(
             [
@@ -45,6 +46,7 @@ class Gear:
                 [0, 0, 1],
             ]
         )
+        arm = self.arm if not callable(self.arm) else self.arm(origin, angle)
         x, y, _ = r * Matrix([origin_x, origin_y + self.arm, 1])
         return (x, y), output
 
@@ -55,7 +57,7 @@ class Gear:
         locations = []
         sample_angle = circle / 300
         angle = 0
-        while angle <= circle * 10:
+        while angle <= circle * 0.25:
             if angle in self.locations:
                 angle += sample_angle * gamma
                 continue
@@ -74,24 +76,29 @@ if __name__ == "__main__":
     g3 = Gear(ratio=-1.5, parent=g2)
     g4 = Gear(ratio=1.1, parent=g3)
 
+    gears = [g0, g1, g2, g3, g4]
+
     colors = [
-        [GREEN, RED],
+        [BLACK, WHITE],
         [PURPLE, ORANGE],
-        [YELLOW, BLUE],
-        [RED, WHITE],
+        [YELLOW, ORANGE],
+        [WHITE, BLACK],
         [BLUE, GREEN],
     ]
     scene = Scene()
-    for gear in reversed([g4, g3, g2, g1]):
+    for gear in gears:
         gear.do()
 
+    cycle_locations = {}
+    for i, gear in enumerate(gears):
+        cycle_locations[i] = [(*value, 0) for (_, value) in sorted(gear.locations.items())]
+
     cycles = VGroup()
-    for gear in reversed([g4, g3, g2, g1]):
+    for locations in cycle_locations.values():
         cycle = VGroup(stroke_width=0.2).set_color(color=colors.pop())
-        locations = [(*value, 0) for (_, value) in sorted(gear.locations.items())]
         cycle.set_points_as_corners(locations)
         cycles.add(cycle)
 
-    cycles.scale_to_fit_height(config.frame_height)
+    cycles.scale_to_fit_height(config.frame_height * 0.9)
     scene.add(cycles)
     scene.render()
