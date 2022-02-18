@@ -55,7 +55,7 @@ class Gear:
         locations = []
         sample_angle = circle / 300
         angle = 0
-        while angle <= circle * 20:
+        while angle <= circle * 10:
             if angle in self.locations:
                 angle += sample_angle * gamma
                 continue
@@ -65,7 +65,7 @@ class Gear:
 
 
 if __name__ == "__main__":
-    from manim import VGroup, Scene
+    from manim import VGroup, Scene, config
 
     g0 = Gear()
     g1 = Gear(parent=g0)
@@ -78,10 +78,13 @@ if __name__ == "__main__":
     for gear in [g4, g3, g2, g1]:
         gear.do()
 
+    cycles = VGroup()
     for gear in reversed([g4, g3, g2, g1]):
         cycle = VGroup(stroke_width=0.2, color=colors.pop())
         locations = [(*value, 0) for (_, value) in sorted(gear.locations.items())]
         cycle.set_points_as_corners(locations)
-        scene.add(cycle)
+        cycles.add(cycle)
 
+    cycles.scale_to_fit_height(config.frame_height)
+    scene.add(cycles)
     scene.render()
