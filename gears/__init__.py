@@ -3,7 +3,6 @@ from sympy import Matrix
 
 
 class FloatDict(dict):
-
     def __in__(self, key):
         for real_key in self.__dict__:
             if abs(real_key - key) <= 0.00000001:
@@ -12,6 +11,7 @@ class FloatDict(dict):
 
     def ordered_iter(self):
         return iter(sorted(self.__dict__.items()))
+
 
 class Gear:
     def __init__(self, ratio=1, arm=1, parent=None):
@@ -68,7 +68,7 @@ class Gear:
 
 
 if __name__ == "__main__":
-    #from manim import VGroup, Scene
+    # from manim import VGroup, Scene
 
     g0 = Gear()
     g1 = Gear(parent=g0)
@@ -76,9 +76,9 @@ if __name__ == "__main__":
     g3 = Gear(ratio=-1.5, parent=g2)
     g4 = Gear(ratio=1.1, parent=g3)
 
-    #colors = {'GREEN', 'RED', 'BLUE', 'ORANGE', 'YELLOW'}
+    # colors = {'GREEN', 'RED', 'BLUE', 'ORANGE', 'YELLOW'}
 
-    #scene = Scene()
+    # scene = Scene()
     for gear in reversed([g4, g3, g2, g1]):
         locations = gear.do()
     #     cycle = VGroup(stroke_width=0.2, color=colors.pop())
