@@ -63,3 +63,9 @@ pip install https://github.com/stnbu/gears.git
 ## Why?
 
 Why not?
+
+## Motivating Image?
+
+Yes, but just one:
+
+![Image](../blob/main/wow.jpg?raw=true)
