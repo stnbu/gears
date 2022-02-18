@@ -53,9 +53,9 @@ class Gear:
 
     def do(self):
         locations = []
-        sample_angle = circle / 200
+        sample_angle = circle / 300
         angle = 0
-        while angle <= circle:
+        while angle <= circle * 20:
             if angle in self.locations:
                 angle += sample_angle * gamma
                 continue
@@ -73,12 +73,12 @@ if __name__ == "__main__":
     g3 = Gear(ratio=-1.5, parent=g2)
     g4 = Gear(ratio=1.1, parent=g3)
 
-    colors = {'GREEN', 'BLUE', 'RED', 'ORANGE', 'YELLOW'}
+    colors = {"GREEN", "BLUE", "RED", "ORANGE", "YELLOW"}
     scene = Scene()
     for gear in [g4, g3, g2, g1]:
         gear.do()
-        
-    for gear in [g4, g3, g2, g1]:
+
+    for gear in reversed([g4, g3, g2, g1]):
         cycle = VGroup(stroke_width=0.2, color=colors.pop())
         locations = [(*value, 0) for (_, value) in sorted(gear.locations.items())]
         cycle.set_points_as_corners(locations)
