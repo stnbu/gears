@@ -2,12 +2,23 @@ from math import sin, cos, tau as circle
 from sympy import Matrix
 
 
+class FloatDict(dict):
+
+    def __in__(self, key):
+        for real_key in self.__dict__:
+            if abs(real_key - key) <= 0.00000001:
+                return real_key
+        return key in self.__dict__
+
+    def ordered_iter(self):
+        return iter(sorted(self.__dict__.items()))
+
 class Gear:
     def __init__(self, ratio=1, arm=1, parent=None):
         self.ratio = ratio
         self.arm = arm
         self.parent = parent
-        self.results = {}
+        self.locations = FloatDict()
 
     def get_nib(self, angle):
         input_angle = angle
@@ -45,27 +56,33 @@ class Gear:
 
     def do(self):
         locations = []
-        sample_angle = circle / 100
+        sample_angle = circle / 200
         angle = 0
-        while angle <= circle:
+        while angle <= circle * 2:
+            if angle in self.locations:
+                angle += sample_angle * gamma
+                continue
             location, gamma = self.get_nib(angle)
             angle += sample_angle * gamma
-            locations.append(location)
-        return locations
+            self.locations[angle] = location
 
 
 if __name__ == "__main__":
-    from manim import VGroup, Scene
+    #from manim import VGroup, Scene
 
     g0 = Gear()
     g1 = Gear(parent=g0)
     g2 = Gear(ratio=0.5, parent=g1)
     g3 = Gear(ratio=-1.5, parent=g2)
     g4 = Gear(ratio=1.1, parent=g3)
-    locations = g3.do()
 
-    scene = Scene()
-    cycle = VGroup()
-    cycle.set_points_as_corners([(x, y, 0) for (x, y) in locations])
-    scene.add(cycle)
-    scene.render()
+    #colors = {'GREEN', 'RED', 'BLUE', 'ORANGE', 'YELLOW'}
+
+    #scene = Scene()
+    for gear in reversed([g4, g3, g2, g1]):
+        locations = gear.do()
+    #     cycle = VGroup(stroke_width=0.2, color=colors.pop())
+    #     cycle.set_points_as_corners([(x, y, 0) for (x, y) in locations])
+    #     scene.add(cycle)
+
+    # scene.render()
