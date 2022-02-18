@@ -38,7 +38,7 @@ class Gear:
     def rotate(self, origin, angle):
         origin_x, origin_y = origin
         ratio = self.ratio if not callable(self.ratio) else self.ratio(origin, angle)
-        output = self.ratio * angle
+        output = ratio * angle
         r = Matrix(
             [
                 [cos(output), -sin(output), 0],
@@ -47,7 +47,7 @@ class Gear:
             ]
         )
         arm = self.arm if not callable(self.arm) else self.arm(origin, angle)
-        x, y, _ = r * Matrix([origin_x, origin_y + self.arm, 1])
+        x, y, _ = r * Matrix([origin_x, origin_y + arm, 1])
         return (x, y), output
 
     def __repr__(self):
@@ -57,7 +57,7 @@ class Gear:
         locations = []
         sample_angle = circle / 300
         angle = 0
-        while angle <= circle * 0.25:
+        while angle <= circle:
             if angle in self.locations:
                 angle += sample_angle * gamma
                 continue
@@ -69,11 +69,18 @@ class Gear:
 if __name__ == "__main__":
     from manim import *
     from sympy import Matrix
+    import math
+
+    def ratio_01(origin, angle):
+        return math.sqrt(origin[0]**2 + origin[1]**2)
+
+    def arm_01(origin, angle):
+        return 10 / math.sqrt(origin[0]**2 + origin[1]**2)
 
     g0 = Gear()
     g1 = Gear(parent=g0)
     g2 = Gear(ratio=0.5, parent=g1)
-    g3 = Gear(ratio=-1.5, parent=g2)
+    g3 = Gear(ratio=-1.5, arm=arm_01, parent=g2)
     g4 = Gear(ratio=1.1, parent=g3)
 
     gears = [g0, g1, g2, g3, g4]
@@ -93,7 +100,7 @@ if __name__ == "__main__":
     for i, gear in enumerate(gears):
         cycle_locations[i] = [
             (*value, 0) for (_, value) in sorted(gear.locations.items())
-        ]
+        ][1:]
 
     cycles = VGroup()
     for locations in cycle_locations.values():
