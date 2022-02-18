@@ -65,7 +65,8 @@ class Gear:
 
 
 if __name__ == "__main__":
-    from manim import VGroup, Scene, config
+    from manim import *
+    from sympy import Matrix
 
     g0 = Gear()
     g1 = Gear(parent=g0)
@@ -73,14 +74,20 @@ if __name__ == "__main__":
     g3 = Gear(ratio=-1.5, parent=g2)
     g4 = Gear(ratio=1.1, parent=g3)
 
-    colors = {"GREEN", "BLUE", "RED", "ORANGE", "YELLOW"}
+    colors = [
+        [GREEN, RED],
+        [PURPLE, ORANGE],
+        [YELLOW, BLUE],
+        [RED, WHITE],
+        [BLUE, GREEN],
+    ]
     scene = Scene()
-    for gear in [g4, g3, g2, g1]:
+    for gear in reversed([g4, g3, g2, g1]):
         gear.do()
 
     cycles = VGroup()
     for gear in reversed([g4, g3, g2, g1]):
-        cycle = VGroup(stroke_width=0.2, color=colors.pop())
+        cycle = VGroup(stroke_width=0.2).set_color(color=colors.pop())
         locations = [(*value, 0) for (_, value) in sorted(gear.locations.items())]
         cycle.set_points_as_corners(locations)
         cycles.add(cycle)
