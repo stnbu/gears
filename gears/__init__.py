@@ -72,10 +72,10 @@ if __name__ == "__main__":
     import math
 
     def ratio_01(origin, angle):
-        return math.sqrt(origin[0]**2 + origin[1]**2)
+        return math.sqrt(origin[0] ** 2 + origin[1] ** 2)
 
     def arm_01(origin, angle):
-        return 10 / math.sqrt(origin[0]**2 + origin[1]**2)
+        return 10 / math.sqrt(origin[0] ** 2 + origin[1] ** 2)
 
     def arm_02(origin, angle):
         return angle / 2
