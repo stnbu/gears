@@ -68,4 +68,4 @@ Why not?
 
 Yes, but just one:
 
-![Image](../blob/main/wow.jpg?raw=true)
+![Spirochaete](blob/main/wow.jpg?raw=true)
