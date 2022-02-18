@@ -9,9 +9,6 @@ class FloatDict(dict):
                 return real_key
         return key in self.__dict__
 
-    def ordered_iter(self):
-        return iter(sorted(self.__dict__.items()))
-
 
 class Gear:
     def __init__(self, ratio=1, arm=1, parent=None):
@@ -58,7 +55,7 @@ class Gear:
         locations = []
         sample_angle = circle / 200
         angle = 0
-        while angle <= circle * 2:
+        while angle <= circle:
             if angle in self.locations:
                 angle += sample_angle * gamma
                 continue
@@ -68,7 +65,7 @@ class Gear:
 
 
 if __name__ == "__main__":
-    # from manim import VGroup, Scene
+    from manim import VGroup, Scene
 
     g0 = Gear()
     g1 = Gear(parent=g0)
@@ -76,13 +73,15 @@ if __name__ == "__main__":
     g3 = Gear(ratio=-1.5, parent=g2)
     g4 = Gear(ratio=1.1, parent=g3)
 
-    # colors = {'GREEN', 'RED', 'BLUE', 'ORANGE', 'YELLOW'}
+    colors = {'GREEN', 'BLUE', 'RED', 'ORANGE', 'YELLOW'}
+    scene = Scene()
+    for gear in [g4, g3, g2, g1]:
+        gear.do()
+        
+    for gear in [g4, g3, g2, g1]:
+        cycle = VGroup(stroke_width=0.2, color=colors.pop())
+        locations = [(*value, 0) for (_, value) in sorted(gear.locations.items())]
+        cycle.set_points_as_corners(locations)
+        scene.add(cycle)
 
-    # scene = Scene()
-    for gear in reversed([g4, g3, g2, g1]):
-        locations = gear.do()
-    #     cycle = VGroup(stroke_width=0.2, color=colors.pop())
-    #     cycle.set_points_as_corners([(x, y, 0) for (x, y) in locations])
-    #     scene.add(cycle)
-
-    # scene.render()
+    scene.render()
