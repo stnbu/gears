@@ -91,7 +91,9 @@ if __name__ == "__main__":
 
     cycle_locations = {}
     for i, gear in enumerate(gears):
-        cycle_locations[i] = [(*value, 0) for (_, value) in sorted(gear.locations.items())]
+        cycle_locations[i] = [
+            (*value, 0) for (_, value) in sorted(gear.locations.items())
+        ]
 
     cycles = VGroup()
     for locations in cycle_locations.values():
