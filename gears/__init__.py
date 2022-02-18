@@ -18,9 +18,7 @@ class Gear:
         for gear in lineage:
             total_angle += angle
             origin, angle = gear.rotate(origin, total_angle)
-            _gamma = 1 if angle == 0 else input_angle / abs(angle)
-            if gamma > _gamma:
-                gamma = _gamma
+            gamma = 1 if angle == 0 else input_angle / abs(angle)
         return origin, gamma
 
     def get_lineage(self):
