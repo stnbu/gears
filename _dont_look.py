@@ -37,7 +37,7 @@ line = [(point[0] - min_x, point[1] - min_y) for (_, point) in sorted(g4.locatio
 #import ipdb; ipdb.set_trace()
 frame.viewbox(0, 0, max_x - min_x, max_y - min_y)
 
-poly = frame.polyline(line)
+poly = frame.polyline(line, fill="none", stroke="black", stroke_width="0.1%")
 frame.add(poly)
 
 frame.save()
